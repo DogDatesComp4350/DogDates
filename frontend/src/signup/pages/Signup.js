@@ -47,7 +47,7 @@ const Signup = ( ) => {
   
       //save token and redirect to user's home page upon signup successfully
       if (response) {
-        auth.login(response.data.uid, response.data.token, response.data);
+        auth.login(response.data.uid, response.data.token);
         //redirect to account page
         window.location = "/account";
       }
@@ -86,8 +86,8 @@ const Signup = ( ) => {
             city: Yup.string().required('Required'),
             image: Yup.mixed().test(
               "File Size", 
-              "File is not selected or too large", 
-              (value) => { return (value&&value.size <= 3000000);}
+              "File is too large", 
+              (value) => { return (value&&value.size <= 1048576);}
             )
           })}
           onSubmit={signupSubmitHandler} 

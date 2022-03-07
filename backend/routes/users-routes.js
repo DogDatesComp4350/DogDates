@@ -2,7 +2,6 @@ const express = require('express');
 const { check } = require('express-validator');
 
 const controller = require('../controllers/users-controller');
-const fileUpload = require("../middleware/file-upload");
 
 const router = express.Router();
 
@@ -13,15 +12,19 @@ router.get('/', controller.getUserList);
 router.get('/:uid', controller.getUserById);
 
 //update user's info
-router.patch('/:uid', fileUpload.single("pictures"),
-  [
-    check("email").normalizeEmail().isEmail(),
-    check('dogName').not().isEmpty(),
-    check('city').not().isEmpty(),
-    check('ownerName').not().isEmpty()
+router.patch('/:uid', 
+[
+    check('email')
+      .normalizeEmail()
+      .isEmail(),
+      check('dogName')
+      .not()
+      .isEmpty(),
+      check('city')
+      .not()
+      .isEmpty()
   ],
-  controller.updateUserById
-);
+  controller.updateUserById);
 
 //delete the user
 router.delete('/:uid', controller.deleteUserById);
